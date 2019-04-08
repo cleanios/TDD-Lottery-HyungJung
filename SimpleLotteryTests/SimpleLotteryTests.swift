@@ -11,11 +11,30 @@ import XCTest
 
 class SimpleLotteryTests: XCTestCase {
     
-    func testGenerateNumbers() {
+    let winningNumbers = [1, 5, 11, 19, 25, 31]
+    let bonusNumber = 7
+    
+    func testGeneratedNumbers() {
         // given
         
         // when
         let lottery = Lottery()
+        
+        // then
+        XCTAssertEqual(lottery.numbers.count, Lottery.numbersMaximumCount)
+        lottery.numbers.forEach { XCTAssertTrue(Lottery.numbersRange.contains($0)) }
+    }
+    
+    func testGeneratedNumbers_WhenNumbersMaximumCountIsExceeded() {
+        // given
+        var nonredundantNumbers: Set<Int> = []
+        
+        while nonredundantNumbers.count < Lottery.numbersMaximumCount + 1 {
+            nonredundantNumbers.insert(Int.random(in: Lottery.numbersRange))
+        }
+        
+        // when
+        let lottery = Lottery(numbers: Array(nonredundantNumbers).sorted())
         
         // then
         XCTAssertEqual(lottery.numbers.count, Lottery.numbersMaximumCount)
@@ -35,26 +54,125 @@ class SimpleLotteryTests: XCTestCase {
         XCTAssertEqual(purchaser.lotteries.count, purchasableCount)
     }
     
-    func testCheckWinningLotteries() {
+    func testCheckFirstWinning() {
         // given
-        let lotteries = [Lottery(numbers: [1, 5, 11, 19, 25, 31]),
-                         Lottery(numbers: [1, 5, 7, 11, 19, 25]),
-                         Lottery(numbers: [1, 5, 11, 19, 25, 45]),
-                         Lottery(numbers: [1, 5, 11, 19, 44, 45]),
-                         Lottery(numbers: [1, 5, 11, 43, 44, 45]),
-                         Lottery(numbers: [1, 5, 42, 43, 44, 45])]
-        let winningChecker = LotteryWinningChecker(winningNumbers: [1, 5, 11, 19, 25, 31], bonusNumber: 7)
-        let rankings = [1, 2, 3, 4, 5, 6]
-        let prizes = [2000000000, 30000000, 1500000, 50000, 5000, 0]
+        let winningChecker = LotteryWinningChecker(winningNumbers: self.winningNumbers, bonusNumber: self.bonusNumber)
+        let lottery = Lottery(numbers: self.winningNumbers)
+        let expectedRanking = 1
+        let expectedPrize = 2_000_000_000
         
         // when
-        let checkedLotteries = lotteries.map { winningChecker.checkedLottery(for: $0) }
+        let checkedLottery = winningChecker.checkedLottery(for: lottery)
         
         // then
-        checkedLotteries.enumerated().forEach { (index, checkedLottery) in
-            XCTAssertEqual(checkedLottery.ranking, rankings[index])
-            XCTAssertEqual(checkedLottery.prize, prizes[index])
+        XCTAssertEqual(checkedLottery.ranking, expectedRanking)
+        XCTAssertEqual(checkedLottery.prize, expectedPrize)
+    }
+    
+    func testCheckSecondWinning() {
+        // given
+        let winningChecker = LotteryWinningChecker(winningNumbers: self.winningNumbers, bonusNumber: self.bonusNumber)
+        let matchingCount = 5
+        var numbers = self.winningNumbers.shuffled().enumerated().compactMap { $0 < matchingCount ? $1 : nil }
+        numbers.append(self.bonusNumber)
+        let lottery = Lottery(numbers: numbers)
+        let expectedRanking = 2
+        let expectedPrize = 30_000_000
+        
+        // when
+        let checkedLottery = winningChecker.checkedLottery(for: lottery)
+        
+        // then
+        XCTAssertEqual(checkedLottery.ranking, expectedRanking)
+        XCTAssertEqual(checkedLottery.prize, expectedPrize)
+    }
+    
+    func testCheckThirdWinning() {
+        // given
+        let winningChecker = LotteryWinningChecker(winningNumbers: self.winningNumbers, bonusNumber: self.bonusNumber)
+        let matchingCount = 5
+        var lottery = Lottery(numbers: [self.bonusNumber])
+        
+        while lottery.numbers.contains(self.bonusNumber) {
+            var numbers = self.winningNumbers.shuffled().enumerated().compactMap { $0 < matchingCount ? $1 : nil }
+            numbers.append(Int.random(in: 1...45))
+            lottery = Lottery(numbers: numbers)
         }
+        
+        let expectedRanking = 3
+        let expectedPrize = 1_500_000
+        
+        // when
+        let checkedLottery = winningChecker.checkedLottery(for: lottery)
+        
+        // then
+        XCTAssertEqual(checkedLottery.ranking, expectedRanking)
+        XCTAssertEqual(checkedLottery.prize, expectedPrize)
+    }
+    
+    func testCheckFourthWinning() {
+        // given
+        let winningChecker = LotteryWinningChecker(winningNumbers: self.winningNumbers, bonusNumber: self.bonusNumber)
+        let matchingCount = 4
+        var lottery = Lottery(numbers: self.winningNumbers)
+        
+        while Set(lottery.numbers).intersection(self.winningNumbers).count != matchingCount {
+            let numbers = self.winningNumbers.shuffled().enumerated().compactMap { $0 < matchingCount ? $1 : nil }
+            lottery = Lottery(numbers: numbers)
+        }
+        
+        let expectedRanking = 4
+        let expectedPrize = 50_000
+        
+        // when
+        let checkedLottery = winningChecker.checkedLottery(for: lottery)
+        
+        // then
+        XCTAssertEqual(checkedLottery.ranking, expectedRanking)
+        XCTAssertEqual(checkedLottery.prize, expectedPrize)
+    }
+    
+    func testCheckFifthWinning() {
+        // given
+        let winningChecker = LotteryWinningChecker(winningNumbers: self.winningNumbers, bonusNumber: self.bonusNumber)
+        let matchingCount = 3
+        var lottery = Lottery(numbers: self.winningNumbers)
+        
+        while Set(lottery.numbers).intersection(self.winningNumbers).count != matchingCount {
+            let numbers = self.winningNumbers.shuffled().enumerated().compactMap { $0 < matchingCount ? $1 : nil }
+            lottery = Lottery(numbers: numbers)
+        }
+        
+        let expectedRanking = 5
+        let expectedPrize = 5_000
+        
+        // when
+        let checkedLottery = winningChecker.checkedLottery(for: lottery)
+        
+        // then
+        XCTAssertEqual(checkedLottery.ranking, expectedRanking)
+        XCTAssertEqual(checkedLottery.prize, expectedPrize)
+    }
+    
+    func testCheckLosing() {
+        // given
+        let winningChecker = LotteryWinningChecker(winningNumbers: self.winningNumbers, bonusNumber: self.bonusNumber)
+        let matchingMaximumCount = 2
+        var lottery = Lottery(numbers: self.winningNumbers)
+        
+        while Set(lottery.numbers).intersection(self.winningNumbers).count > matchingMaximumCount {
+            lottery = Lottery()
+        }
+        
+        let expectedRanking = 6
+        let expectedPrize = 0
+        
+        // when
+        let checkedLottery = winningChecker.checkedLottery(for: lottery)
+        
+        // then
+        XCTAssertEqual(checkedLottery.ranking, expectedRanking)
+        XCTAssertEqual(checkedLottery.prize, expectedPrize)
     }
     
 }

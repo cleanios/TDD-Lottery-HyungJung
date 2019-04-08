@@ -7,24 +7,21 @@
 //
 
 import Foundation
+import os.log
 
 class LotteryPurchaser {
     
     private(set) var lotteries: [Lottery] = []
     
     func purchase(for purchaseAmount: Int) {
-        var lotteries: [Lottery] = []
-        
         let purchasableCount = purchaseAmount / Lottery.price
         
-        while lotteries.count < purchasableCount {
-            lotteries.append(Lottery())
+        while self.lotteries.count < purchasableCount {
+            self.lotteries.append(Lottery())
         }
         
-        print("You purchased \(lotteries.count) lottories.")
-        lotteries.forEach { print($0.numbers) }
-        
-        self.lotteries.append(contentsOf: lotteries)
+        os_log("You purchased %d lottories.", log: .default, type: .info, self.lotteries.count)
+        self.lotteries.forEach { os_log("%s", log: .default, type: .info, $0.numbers.description) }
     }
     
 }

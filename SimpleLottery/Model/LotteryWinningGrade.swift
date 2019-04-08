@@ -19,7 +19,7 @@ protocol LotteryWinningGrade {
 struct FirstWinning: LotteryWinningGrade {
     
     var ranking = 1
-    var prize = 2000000000
+    var prize = 2_000_000_000
     
 }
 
@@ -27,7 +27,7 @@ struct FirstWinning: LotteryWinningGrade {
 struct SecondWinning: LotteryWinningGrade {
     
     var ranking = 2
-    var prize = 30000000
+    var prize = 30_000_000
     
 }
 
@@ -35,7 +35,7 @@ struct SecondWinning: LotteryWinningGrade {
 struct ThirdWinning: LotteryWinningGrade {
     
     var ranking = 3
-    var prize = 1500000
+    var prize = 1_500_000
     
 }
 
@@ -43,7 +43,7 @@ struct ThirdWinning: LotteryWinningGrade {
 struct FourthWinning: LotteryWinningGrade {
     
     var ranking = 4
-    var prize = 50000
+    var prize = 50_000
     
 }
 
@@ -51,7 +51,7 @@ struct FourthWinning: LotteryWinningGrade {
 struct FifthWinning: LotteryWinningGrade {
     
     var ranking = 5
-    var prize = 5000
+    var prize = 5_000
     
 }
 
@@ -66,8 +66,8 @@ struct Losing: LotteryWinningGrade {
 
 struct LotteryWinningGradeFactory {
     
-    static func lotteryWinningGrade(numberOfMatching: Int, hasBonus: Bool) -> LotteryWinningGrade {
-        switch numberOfMatching {
+    static func winningGrade(for matchingCount: Int, hasBonus: Bool) -> LotteryWinningGrade {
+        switch matchingCount {
         case 6:
             return FirstWinning()
         case 5:
