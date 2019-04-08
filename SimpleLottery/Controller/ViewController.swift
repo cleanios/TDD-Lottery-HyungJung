@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     }
     
     private func setup() {
-        let purchaseAmount = 5000
+        let purchaseAmount = 5_000
         self.purchaser.purchase(for: purchaseAmount)
         
         let checkedLotteries = self.winningChecker.checkedLotteries(for: self.purchaser.lotteries)

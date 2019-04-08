@@ -21,7 +21,7 @@ struct Lottery {
     }
     
     private static func generatedNumbers(with numbers: [Int]) -> [Int] {
-        var nonredundantNumbers: Set<Int> = Set(numbers)
+        var nonredundantNumbers = Set(numbers)
         
         if nonredundantNumbers.count > self.numbersMaximumCount {
             nonredundantNumbers = Set(nonredundantNumbers.prefix(self.numbersMaximumCount))
