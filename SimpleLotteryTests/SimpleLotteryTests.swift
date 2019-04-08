@@ -11,8 +11,7 @@ import XCTest
 
 class SimpleLotteryTests: XCTestCase {
     
-    let winningNumbers = [1, 5, 11, 19, 25, 31]
-    let bonusNumber = 7
+    let winningChecker = LotteryWinningChecker()
     
     func testGeneratedNumbers() {
         // given
@@ -45,19 +44,20 @@ class SimpleLotteryTests: XCTestCase {
         // given
         let purchaseAmount = 5000
         let purchaser = LotteryPurchaser()
-        let purchasableCount = purchaseAmount / Lottery.price
+        
+        let expectedCount = purchaseAmount / Lottery.price
         
         // when
         purchaser.purchase(for: purchaseAmount)
         
         // then
-        XCTAssertEqual(purchaser.lotteries.count, purchasableCount)
+        XCTAssertEqual(purchaser.lotteries.count, expectedCount)
     }
     
     func testCheckFirstWinning() {
         // given
-        let winningChecker = LotteryWinningChecker(winningNumbers: self.winningNumbers, bonusNumber: self.bonusNumber)
-        let lottery = Lottery(numbers: self.winningNumbers)
+        let lottery = Lottery(numbers: self.winningChecker.winningNumbers)
+        
         let expectedRanking = 1
         let expectedPrize = 2_000_000_000
         
@@ -71,11 +71,11 @@ class SimpleLotteryTests: XCTestCase {
     
     func testCheckSecondWinning() {
         // given
-        let winningChecker = LotteryWinningChecker(winningNumbers: self.winningNumbers, bonusNumber: self.bonusNumber)
         let matchingCount = 5
-        var numbers = self.winningNumbers.shuffled().enumerated().compactMap { $0 < matchingCount ? $1 : nil }
-        numbers.append(self.bonusNumber)
+        var numbers = self.winningChecker.winningNumbers.shuffled().enumerated().compactMap { $0 < matchingCount ? $1 : nil }
+        numbers.append(self.winningChecker.bonusNumber)
         let lottery = Lottery(numbers: numbers)
+        
         let expectedRanking = 2
         let expectedPrize = 30_000_000
         
@@ -89,12 +89,11 @@ class SimpleLotteryTests: XCTestCase {
     
     func testCheckThirdWinning() {
         // given
-        let winningChecker = LotteryWinningChecker(winningNumbers: self.winningNumbers, bonusNumber: self.bonusNumber)
         let matchingCount = 5
-        var lottery = Lottery(numbers: [self.bonusNumber])
+        var lottery = Lottery(numbers: [self.winningChecker.bonusNumber])
         
-        while lottery.numbers.contains(self.bonusNumber) {
-            var numbers = self.winningNumbers.shuffled().enumerated().compactMap { $0 < matchingCount ? $1 : nil }
+        while lottery.numbers.contains(self.winningChecker.bonusNumber) {
+            var numbers = self.winningChecker.winningNumbers.shuffled().enumerated().compactMap { $0 < matchingCount ? $1 : nil }
             numbers.append(Int.random(in: 1...45))
             lottery = Lottery(numbers: numbers)
         }
@@ -112,12 +111,11 @@ class SimpleLotteryTests: XCTestCase {
     
     func testCheckFourthWinning() {
         // given
-        let winningChecker = LotteryWinningChecker(winningNumbers: self.winningNumbers, bonusNumber: self.bonusNumber)
         let matchingCount = 4
-        var lottery = Lottery(numbers: self.winningNumbers)
+        var lottery = Lottery(numbers: self.winningChecker.winningNumbers)
         
-        while Set(lottery.numbers).intersection(self.winningNumbers).count != matchingCount {
-            let numbers = self.winningNumbers.shuffled().enumerated().compactMap { $0 < matchingCount ? $1 : nil }
+        while Set(lottery.numbers).intersection(self.winningChecker.winningNumbers).count != matchingCount {
+            let numbers = self.winningChecker.winningNumbers.shuffled().enumerated().compactMap { $0 < matchingCount ? $1 : nil }
             lottery = Lottery(numbers: numbers)
         }
         
@@ -134,12 +132,11 @@ class SimpleLotteryTests: XCTestCase {
     
     func testCheckFifthWinning() {
         // given
-        let winningChecker = LotteryWinningChecker(winningNumbers: self.winningNumbers, bonusNumber: self.bonusNumber)
         let matchingCount = 3
-        var lottery = Lottery(numbers: self.winningNumbers)
+        var lottery = Lottery(numbers: self.winningChecker.winningNumbers)
         
-        while Set(lottery.numbers).intersection(self.winningNumbers).count != matchingCount {
-            let numbers = self.winningNumbers.shuffled().enumerated().compactMap { $0 < matchingCount ? $1 : nil }
+        while Set(lottery.numbers).intersection(self.winningChecker.winningNumbers).count != matchingCount {
+            let numbers = self.winningChecker.winningNumbers.shuffled().enumerated().compactMap { $0 < matchingCount ? $1 : nil }
             lottery = Lottery(numbers: numbers)
         }
         
@@ -156,11 +153,10 @@ class SimpleLotteryTests: XCTestCase {
     
     func testCheckLosing() {
         // given
-        let winningChecker = LotteryWinningChecker(winningNumbers: self.winningNumbers, bonusNumber: self.bonusNumber)
         let matchingMaximumCount = 2
-        var lottery = Lottery(numbers: self.winningNumbers)
+        var lottery = Lottery(numbers: self.winningChecker.winningNumbers)
         
-        while Set(lottery.numbers).intersection(self.winningNumbers).count > matchingMaximumCount {
+        while Set(lottery.numbers).intersection(self.winningChecker.winningNumbers).count > matchingMaximumCount {
             lottery = Lottery()
         }
         

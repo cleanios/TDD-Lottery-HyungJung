@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController {
     
     private let purchaser = LotteryPurchaser()
-    private let winningChecker = LotteryWinningChecker(winningNumbers: [1, 5, 11, 19, 25, 31], bonusNumber: 7)
+    private let winningChecker = LotteryWinningChecker()
     
     override func viewDidLoad() {
         super.viewDidLoad()

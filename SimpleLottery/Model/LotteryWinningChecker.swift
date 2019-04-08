@@ -7,15 +7,23 @@
 //
 
 import Foundation
+import os.log
 
 struct LotteryWinningChecker {
     
-    private let winningNumbers: [Int]
-    private let bonusNumber: Int
+    private(set) var winningNumbers: [Int]
+    private(set) var bonusNumber: Int
     
-    init(winningNumbers: [Int], bonusNumber: Int) {
-        self.winningNumbers = winningNumbers
-        self.bonusNumber = bonusNumber
+    init() {
+        self.winningNumbers = Lottery().numbers
+        self.bonusNumber = winningNumbers.prefix(1).compactMap { $0 }.reduce(0, +)
+        
+        while self.winningNumbers.contains(self.bonusNumber) {
+            self.bonusNumber = Int.random(in: 1...45)
+        }
+        
+        os_log("Winning numbers are %s.", log: .default, type: .info, self.winningNumbers.description)
+        os_log("Bonus number is %d.", log: .default, type: .info, self.bonusNumber)
     }
     
     func checkedLottery(for lottery: Lottery) -> LotteryWinningGrade {
