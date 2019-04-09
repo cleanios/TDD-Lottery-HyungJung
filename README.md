@@ -1,4 +1,8 @@
 # SimpleLottery
+![platform-iOS](https://img.shields.io/badge/platform-ios-lightgrey.svg)
+![xcode-10.2](https://img.shields.io/badge/xcode-10.2-blue.svg)
+![swift-5.0](https://img.shields.io/badge/swift-5.0-orange.svg)
+
 SimpleLottery is based on [here](https://www.slipp.net/questions/590) for test-driven development training.  
 Code is always focused on **clarity** and **readability**.
 
