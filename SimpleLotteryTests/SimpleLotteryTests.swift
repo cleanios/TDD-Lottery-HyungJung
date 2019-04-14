@@ -71,8 +71,8 @@ class SimpleLotteryTests: XCTestCase {
     
     func testCheckSecondWinning() {
         // given
-        let matchingCount = 5
-        var numbers = self.winningChecker.winningNumbers.shuffled().enumerated().compactMap { $0 < matchingCount ? $1 : nil }
+        let matching = 5
+        var numbers = self.winningChecker.winningNumbers.shuffled().enumerated().compactMap { $0 < matching ? $1 : nil }
         numbers.append(self.winningChecker.bonusNumber)
         let lottery = Lottery(numbers: numbers)
         
@@ -89,11 +89,11 @@ class SimpleLotteryTests: XCTestCase {
     
     func testCheckThirdWinning() {
         // given
-        let matchingCount = 5
+        let matching = 5
         var lottery = Lottery(numbers: [self.winningChecker.bonusNumber])
         
         while lottery.numbers.contains(self.winningChecker.bonusNumber) {
-            var numbers = self.winningChecker.winningNumbers.shuffled().enumerated().compactMap { $0 < matchingCount ? $1 : nil }
+            var numbers = self.winningChecker.winningNumbers.shuffled().enumerated().compactMap { $0 < matching ? $1 : nil }
             numbers.append(Int.random(in: 1...45))
             lottery = Lottery(numbers: numbers)
         }
@@ -111,11 +111,11 @@ class SimpleLotteryTests: XCTestCase {
     
     func testCheckFourthWinning() {
         // given
-        let matchingCount = 4
+        let mathcing = 4
         var lottery = Lottery(numbers: self.winningChecker.winningNumbers)
         
-        while Set(lottery.numbers).intersection(self.winningChecker.winningNumbers).count != matchingCount {
-            let numbers = self.winningChecker.winningNumbers.shuffled().enumerated().compactMap { $0 < matchingCount ? $1 : nil }
+        while Set(lottery.numbers).intersection(self.winningChecker.winningNumbers).count != mathcing {
+            let numbers = self.winningChecker.winningNumbers.shuffled().enumerated().compactMap { $0 < mathcing ? $1 : nil }
             lottery = Lottery(numbers: numbers)
         }
         
@@ -132,11 +132,11 @@ class SimpleLotteryTests: XCTestCase {
     
     func testCheckFifthWinning() {
         // given
-        let matchingCount = 3
+        let mathcing = 3
         var lottery = Lottery(numbers: self.winningChecker.winningNumbers)
         
-        while Set(lottery.numbers).intersection(self.winningChecker.winningNumbers).count != matchingCount {
-            let numbers = self.winningChecker.winningNumbers.shuffled().enumerated().compactMap { $0 < matchingCount ? $1 : nil }
+        while Set(lottery.numbers).intersection(self.winningChecker.winningNumbers).count != mathcing {
+            let numbers = self.winningChecker.winningNumbers.shuffled().enumerated().compactMap { $0 < mathcing ? $1 : nil }
             lottery = Lottery(numbers: numbers)
         }
         
