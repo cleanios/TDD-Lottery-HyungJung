@@ -27,10 +27,10 @@ struct LotteryWinningChecker {
     }
     
     func checkedLottery(for lottery: Lottery) -> LotteryWinningGrade {
-        let matchingCount = Set(lottery.numbers).intersection(self.winningNumbers).count
+        let matching = Set(lottery.numbers).intersection(self.winningNumbers).count
         let hasBonus = lottery.numbers.contains(self.bonusNumber)
         
-        return LotteryWinningGradeFactory.winningGrade(for: matchingCount, hasBonus: hasBonus)
+        return LotteryWinningGradeFactory.makeWinningGrade(matching: matching, hasBonus: hasBonus)
     }
     
     func checkedLotteries(for lotteries: [Lottery]) -> [LotteryWinningGrade] {

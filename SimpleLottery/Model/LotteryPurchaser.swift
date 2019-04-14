@@ -13,8 +13,8 @@ class LotteryPurchaser {
     
     private(set) var lotteries: [Lottery] = []
     
-    func purchase(for purchaseAmount: Int) {
-        let purchasableCount = purchaseAmount / Lottery.price
+    func purchase(for amount: Int) {
+        let purchasableCount = amount / Lottery.price
         
         while self.lotteries.count < purchasableCount {
             self.lotteries.append(Lottery())

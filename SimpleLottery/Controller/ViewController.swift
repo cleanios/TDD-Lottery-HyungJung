@@ -27,16 +27,16 @@ class ViewController: UIViewController {
         self.printResult(of: checkedLotteries)
     }
     
-    private func printResult(of checkedLotteries: [LotteryWinningGrade]) {
-        let losings = checkedLotteries.filter { $0.ranking == 6 }
-        let fifthWinnings = checkedLotteries.filter { $0.ranking == 5 }
-        let fourthWinnings = checkedLotteries.filter { $0.ranking == 4 }
-        let thirdWinnings = checkedLotteries.filter { $0.ranking == 3 }
-        let secondWinnings = checkedLotteries.filter { $0.ranking == 2 }
-        let firstWinnings = checkedLotteries.filter { $0.ranking == 1 }
+    private func printResult(of lotteries: [LotteryWinningGrade]) {
+        let losings = lotteries.filter { $0.ranking == 6 }
+        let fifthWinnings = lotteries.filter { $0.ranking == 5 }
+        let fourthWinnings = lotteries.filter { $0.ranking == 4 }
+        let thirdWinnings = lotteries.filter { $0.ranking == 3 }
+        let secondWinnings = lotteries.filter { $0.ranking == 2 }
+        let firstWinnings = lotteries.filter { $0.ranking == 1 }
         
-        let purchaseAmount = Lottery.price * checkedLotteries.count
-        let profit = checkedLotteries.reduce(0) { $0 + $1.prize } - purchaseAmount
+        let purchaseAmount = Lottery.price * lotteries.count
+        let profit = lotteries.reduce(0) { $0 + $1.prize } - purchaseAmount
         let profitRate = Double(profit) / Double(purchaseAmount) * 100.0
         
         print("Number of losings is \(losings.count).")

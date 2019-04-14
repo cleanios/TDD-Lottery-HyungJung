@@ -66,8 +66,8 @@ struct Losing: LotteryWinningGrade {
 
 struct LotteryWinningGradeFactory {
     
-    static func winningGrade(for matchingCount: Int, hasBonus: Bool) -> LotteryWinningGrade {
-        switch matchingCount {
+    static func makeWinningGrade(matching: Int, hasBonus: Bool) -> LotteryWinningGrade {
+        switch matching {
         case 6:
             return FirstWinning()
         case 5:
