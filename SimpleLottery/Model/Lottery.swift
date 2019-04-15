@@ -8,27 +8,34 @@
 
 import Foundation
 
+
 struct Lottery {
     
-    static let price = 1000
-    static let numbersRange = 1...45
-    static let numbersMaximumCount = 6
-    
-    let numbers: [Int]
+    // MARK - init
     
     init(numbers: [Int] = []) {
         self.numbers = Lottery.generatedNumbers(with: numbers)
     }
     
+    // MARK: - internal
+    
+    static let price = 1000
+    static let numberRange = 1...45
+    static let numberMaximumCount = 6
+    
+    let numbers: [Int]
+    
+    // MARK: - private
+    
     private static func generatedNumbers(with numbers: [Int]) -> [Int] {
         var nonredundantNumbers = Set(numbers)
         
-        if nonredundantNumbers.count > self.numbersMaximumCount {
-            nonredundantNumbers = Set(nonredundantNumbers.prefix(self.numbersMaximumCount))
+        if nonredundantNumbers.count > self.numberMaximumCount {
+            nonredundantNumbers = Set(nonredundantNumbers.prefix(self.numberMaximumCount))
         }
         
-        while nonredundantNumbers.count < self.numbersMaximumCount {
-            nonredundantNumbers.insert(Int.random(in: self.numbersRange))
+        while nonredundantNumbers.count < self.numberMaximumCount {
+            nonredundantNumbers.insert(Int.random(in: self.numberRange))
         }
         
         return Array(nonredundantNumbers).sorted()

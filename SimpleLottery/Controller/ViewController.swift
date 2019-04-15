@@ -8,16 +8,21 @@
 
 import UIKit
 
+
 class ViewController: UIViewController {
     
-    private let purchaser = LotteryPurchaser()
-    private let winningChecker = LotteryWinningChecker()
+    // MARK: - override
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.setup()
     }
+    
+    // MARK: - private
+    
+    private let purchaser = LotteryPurchaser()
+    private let winningChecker = LotteryWinningChecker()
     
     private func setup() {
         let purchaseAmount = 5_000
