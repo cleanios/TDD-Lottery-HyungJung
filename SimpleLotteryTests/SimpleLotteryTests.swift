@@ -12,8 +12,6 @@ import XCTest
 
 class SimpleLotteryTests: XCTestCase {
     
-    let winningChecker = LotteryWinningChecker()
-    
     func testGeneratedNumbers() {
         // given
         
@@ -63,7 +61,7 @@ class SimpleLotteryTests: XCTestCase {
         let expectedPrize = 2_000_000_000
         
         // when
-        let checkedLottery = winningChecker.checkedLottery(for: lottery)
+        let checkedLottery = self.winningChecker.checkedLottery(for: lottery)
         
         // then
         XCTAssertEqual(checkedLottery.ranking, expectedRanking)
@@ -81,7 +79,7 @@ class SimpleLotteryTests: XCTestCase {
         let expectedPrize = 30_000_000
         
         // when
-        let checkedLottery = winningChecker.checkedLottery(for: lottery)
+        let checkedLottery = self.winningChecker.checkedLottery(for: lottery)
         
         // then
         XCTAssertEqual(checkedLottery.ranking, expectedRanking)
@@ -103,7 +101,7 @@ class SimpleLotteryTests: XCTestCase {
         let expectedPrize = 1_500_000
         
         // when
-        let checkedLottery = winningChecker.checkedLottery(for: lottery)
+        let checkedLottery = self.winningChecker.checkedLottery(for: lottery)
         
         // then
         XCTAssertEqual(checkedLottery.ranking, expectedRanking)
@@ -124,7 +122,7 @@ class SimpleLotteryTests: XCTestCase {
         let expectedPrize = 50_000
         
         // when
-        let checkedLottery = winningChecker.checkedLottery(for: lottery)
+        let checkedLottery = self.winningChecker.checkedLottery(for: lottery)
         
         // then
         XCTAssertEqual(checkedLottery.ranking, expectedRanking)
@@ -145,7 +143,7 @@ class SimpleLotteryTests: XCTestCase {
         let expectedPrize = 5_000
         
         // when
-        let checkedLottery = winningChecker.checkedLottery(for: lottery)
+        let checkedLottery = self.winningChecker.checkedLottery(for: lottery)
         
         // then
         XCTAssertEqual(checkedLottery.ranking, expectedRanking)
@@ -165,11 +163,15 @@ class SimpleLotteryTests: XCTestCase {
         let expectedPrize = 0
         
         // when
-        let checkedLottery = winningChecker.checkedLottery(for: lottery)
+        let checkedLottery = self.winningChecker.checkedLottery(for: lottery)
         
         // then
         XCTAssertEqual(checkedLottery.ranking, expectedRanking)
         XCTAssertEqual(checkedLottery.prize, expectedPrize)
     }
+    
+    // MARK: - private
+    
+    private let winningChecker = LotteryWinningChecker()
     
 }
