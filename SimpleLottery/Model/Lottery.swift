@@ -28,17 +28,17 @@ struct Lottery {
     // MARK: - private
     
     private static func generatedNumbers(with numbers: [Int]) -> [Int] {
-        var nonredundantNumbers = Set(numbers)
+        var uniqueNumbers = Set(numbers)
         
-        if nonredundantNumbers.count > self.numbersCount {
-            nonredundantNumbers = Set(nonredundantNumbers.prefix(self.numbersCount))
+        if uniqueNumbers.count > self.numbersCount {
+            uniqueNumbers = Set(uniqueNumbers.prefix(self.numbersCount))
         }
         
-        while nonredundantNumbers.count < self.numbersCount {
-            nonredundantNumbers.insert(Int.random(in: self.numberRange))
+        while uniqueNumbers.count < self.numbersCount {
+            uniqueNumbers.insert(Int.random(in: self.numberRange))
         }
         
-        return Array(nonredundantNumbers).sorted()
+        return Array(uniqueNumbers).sorted()
     }
     
 }

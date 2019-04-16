@@ -12,7 +12,7 @@ import XCTest
 
 class SimpleLotteryTests: XCTestCase {
     
-    func testGeneratedNumbers() {
+    func testGeneratedNumbersCount_ShouldBeEqualToLotteryNumbersCount() {
         // given
         
         // when
@@ -20,22 +20,45 @@ class SimpleLotteryTests: XCTestCase {
         
         // then
         XCTAssertEqual(lottery.numbers.count, Lottery.numbersCount)
+    }
+    
+    func testGeneratedNumbers_ShouldBeInLotteryNumberRange() {
+        // given
+        
+        // when
+        let lottery = Lottery()
+        
+        // then
         lottery.numbers.forEach { XCTAssertTrue(Lottery.numberRange.contains($0)) }
     }
     
-    func testGeneratedNumbers_WhenNumbersCountIsExceeded() {
+    func testGeneratedNumbers_WhenNumbersCountIsExceeded_ShouldBeEqualToLotteryNumbersCount() {
         // given
-        var nonredundantNumbers: Set<Int> = []
+        var uniqueNumbers: Set<Int> = []
         
-        while nonredundantNumbers.count < Lottery.numbersCount + 1 {
-            nonredundantNumbers.insert(Int.random(in: Lottery.numberRange))
+        while uniqueNumbers.count < Lottery.numbersCount + 1 {
+            uniqueNumbers.insert(Int.random(in: Lottery.numberRange))
         }
         
         // when
-        let lottery = Lottery(numbers: Array(nonredundantNumbers).sorted())
+        let lottery = Lottery(numbers: Array(uniqueNumbers).sorted())
         
         // then
         XCTAssertEqual(lottery.numbers.count, Lottery.numbersCount)
+    }
+    
+    func testGeneratedNumbers_WhenNumbersCountIsExceeded_ShouldBeInLotteryNumberRange() {
+        // given
+        var uniqueNumbers: Set<Int> = []
+        
+        while uniqueNumbers.count < Lottery.numbersCount + 1 {
+            uniqueNumbers.insert(Int.random(in: Lottery.numberRange))
+        }
+        
+        // when
+        let lottery = Lottery(numbers: Array(uniqueNumbers).sorted())
+        
+        // then
         lottery.numbers.forEach { XCTAssertTrue(Lottery.numberRange.contains($0)) }
     }
     
