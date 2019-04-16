@@ -64,7 +64,7 @@ class SimpleLotteryTests: XCTestCase {
     
     func testPurchaseLotteries() {
         // given
-        let purchaseAmount = 5000
+        let purchaseAmount = 5_000
         let purchaser = LotteryPurchaser()
         
         let expectedCount = purchaseAmount / Lottery.price
