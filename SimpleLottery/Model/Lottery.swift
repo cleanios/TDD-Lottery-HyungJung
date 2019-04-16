@@ -21,7 +21,7 @@ struct Lottery {
     
     static let price = 1000
     static let numberRange = 1...45
-    static let numberMaximumCount = 6
+    static let numbersCount = 6
     
     let numbers: [Int]
     
@@ -30,11 +30,11 @@ struct Lottery {
     private static func generatedNumbers(with numbers: [Int]) -> [Int] {
         var nonredundantNumbers = Set(numbers)
         
-        if nonredundantNumbers.count > self.numberMaximumCount {
-            nonredundantNumbers = Set(nonredundantNumbers.prefix(self.numberMaximumCount))
+        if nonredundantNumbers.count > self.numbersCount {
+            nonredundantNumbers = Set(nonredundantNumbers.prefix(self.numbersCount))
         }
         
-        while nonredundantNumbers.count < self.numberMaximumCount {
+        while nonredundantNumbers.count < self.numbersCount {
             nonredundantNumbers.insert(Int.random(in: self.numberRange))
         }
         

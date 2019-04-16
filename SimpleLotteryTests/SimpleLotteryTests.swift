@@ -19,15 +19,15 @@ class SimpleLotteryTests: XCTestCase {
         let lottery = Lottery()
         
         // then
-        XCTAssertEqual(lottery.numbers.count, Lottery.numberMaximumCount)
+        XCTAssertEqual(lottery.numbers.count, Lottery.numbersCount)
         lottery.numbers.forEach { XCTAssertTrue(Lottery.numberRange.contains($0)) }
     }
     
-    func testGeneratedNumbers_WhenNumbersMaximumCountIsExceeded() {
+    func testGeneratedNumbers_WhenNumbersCountIsExceeded() {
         // given
         var nonredundantNumbers: Set<Int> = []
         
-        while nonredundantNumbers.count < Lottery.numberMaximumCount + 1 {
+        while nonredundantNumbers.count < Lottery.numbersCount + 1 {
             nonredundantNumbers.insert(Int.random(in: Lottery.numberRange))
         }
         
@@ -35,7 +35,7 @@ class SimpleLotteryTests: XCTestCase {
         let lottery = Lottery(numbers: Array(nonredundantNumbers).sorted())
         
         // then
-        XCTAssertEqual(lottery.numbers.count, Lottery.numberMaximumCount)
+        XCTAssertEqual(lottery.numbers.count, Lottery.numbersCount)
         lottery.numbers.forEach { XCTAssertTrue(Lottery.numberRange.contains($0)) }
     }
     
@@ -152,10 +152,10 @@ class SimpleLotteryTests: XCTestCase {
     
     func testCheckLosing() {
         // given
-        let matchingMaximumCount = 2
+        let matching = 2
         var lottery = Lottery(numbers: self.winningChecker.winningNumbers)
         
-        while Set(lottery.numbers).intersection(self.winningChecker.winningNumbers).count > matchingMaximumCount {
+        while Set(lottery.numbers).intersection(self.winningChecker.winningNumbers).count > matching {
             lottery = Lottery()
         }
         
