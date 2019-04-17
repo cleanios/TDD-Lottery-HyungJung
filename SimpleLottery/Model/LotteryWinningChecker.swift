@@ -9,10 +9,10 @@
 import Foundation
 import os.log
 
+
 struct LotteryWinningChecker {
     
-    private(set) var winningNumbers: [Int]
-    private(set) var bonusNumber: Int
+    // MARK: - init
     
     init() {
         self.winningNumbers = Lottery().numbers
@@ -26,15 +26,22 @@ struct LotteryWinningChecker {
         os_log("Bonus number is %d.", log: .default, type: .info, self.bonusNumber)
     }
     
+    // MARK: - internal
+    
     func checkedLottery(for lottery: Lottery) -> LotteryWinningGrade {
-        let matchingCount = Set(lottery.numbers).intersection(self.winningNumbers).count
+        let matching = Set(lottery.numbers).intersection(self.winningNumbers).count
         let hasBonus = lottery.numbers.contains(self.bonusNumber)
         
-        return LotteryWinningGradeFactory.winningGrade(for: matchingCount, hasBonus: hasBonus)
+        return LotteryWinningGradeFactory.makeWinningGrade(matching: matching, hasBonus: hasBonus)
     }
     
     func checkedLotteries(for lotteries: [Lottery]) -> [LotteryWinningGrade] {
         return lotteries.map { self.checkedLottery(for: $0) }
     }
+    
+    // MARK - private
+    
+    private(set) var winningNumbers: [Int]
+    private(set) var bonusNumber: Int
     
 }

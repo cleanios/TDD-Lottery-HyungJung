@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 protocol LotteryWinningGrade {
     
     var ranking: Int { get }
@@ -66,8 +67,10 @@ struct Losing: LotteryWinningGrade {
 
 struct LotteryWinningGradeFactory {
     
-    static func winningGrade(for matchingCount: Int, hasBonus: Bool) -> LotteryWinningGrade {
-        switch matchingCount {
+    // MARK: - Factory method pattern
+    
+    static func makeWinningGrade(matching: Int, hasBonus: Bool) -> LotteryWinningGrade {
+        switch matching {
         case 6:
             return FirstWinning()
         case 5:
