@@ -94,8 +94,12 @@ class SimpleLotteryTests: XCTestCase {
     func testCheckSecondWinning() {
         // given
         let matching = 5
-        var numbers = self.winningChecker.winningNumbers.shuffled().enumerated().compactMap { $0 < matching ? $1 : nil }
+        var numbers = self.winningChecker.winningNumbers.shuffled().enumerated().compactMap {
+            $0 < matching ? $1 : nil
+        }
+        
         numbers.append(self.winningChecker.bonusNumber)
+        
         let lottery = Lottery(numbers: numbers)
         
         let expectedRanking = 2
@@ -115,8 +119,12 @@ class SimpleLotteryTests: XCTestCase {
         var lottery = Lottery(numbers: [self.winningChecker.bonusNumber])
         
         while lottery.numbers.contains(self.winningChecker.bonusNumber) {
-            var numbers = self.winningChecker.winningNumbers.shuffled().enumerated().compactMap { $0 < matching ? $1 : nil }
+            var numbers = self.winningChecker.winningNumbers.shuffled().enumerated().compactMap {
+                $0 < matching ? $1 : nil
+            }
+            
             numbers.append(Int.random(in: 1...45))
+            
             lottery = Lottery(numbers: numbers)
         }
         
@@ -137,7 +145,10 @@ class SimpleLotteryTests: XCTestCase {
         var lottery = Lottery(numbers: self.winningChecker.winningNumbers)
         
         while Set(lottery.numbers).intersection(self.winningChecker.winningNumbers).count != mathcing {
-            let numbers = self.winningChecker.winningNumbers.shuffled().enumerated().compactMap { $0 < mathcing ? $1 : nil }
+            let numbers = self.winningChecker.winningNumbers.shuffled().enumerated().compactMap {
+                $0 < mathcing ? $1 : nil
+            }
+            
             lottery = Lottery(numbers: numbers)
         }
         
@@ -158,7 +169,10 @@ class SimpleLotteryTests: XCTestCase {
         var lottery = Lottery(numbers: self.winningChecker.winningNumbers)
         
         while Set(lottery.numbers).intersection(self.winningChecker.winningNumbers).count != mathcing {
-            let numbers = self.winningChecker.winningNumbers.shuffled().enumerated().compactMap { $0 < mathcing ? $1 : nil }
+            let numbers = self.winningChecker.winningNumbers.shuffled().enumerated().compactMap {
+                $0 < mathcing ? $1 : nil
+            }
+            
             lottery = Lottery(numbers: numbers)
         }
         
