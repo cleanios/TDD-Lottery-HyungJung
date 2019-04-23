@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.setup()
+        self.setUp()
     }
     
     // MARK: - private
@@ -24,11 +24,16 @@ class ViewController: UIViewController {
     private let purchaser = LotteryPurchaser()
     private let winningChecker = LotteryWinningChecker()
     
-    private func setup() {
-        let purchaseAmount = 5_000
-        self.purchaser.purchase(for: purchaseAmount)
+}
+
+
+private extension ViewController {
+    
+    private func setUp() {
+        self.purchaser.purchase(for: 5_000)
         
         let checkedLotteries = self.winningChecker.checkedLotteries(for: self.purchaser.lotteries)
+        
         self.printResult(of: checkedLotteries)
     }
     

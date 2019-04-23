@@ -25,7 +25,10 @@ struct Lottery {
     
     let numbers: [Int]
     
-    // MARK: - private
+}
+
+
+private extension Lottery {
     
     private static func generatedNumbers(with numbers: [Int]) -> [Int] {
         var uniqueNumbers = Set(numbers)
