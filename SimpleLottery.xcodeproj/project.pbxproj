@@ -108,8 +108,6 @@
 			isa = PBXGroup;
 			children = (
 				AC3E6B64224BF51C00BB5179 /* Lottery.swift */,
-				AC3E6B62224BF51C00BB5179 /* LotteryPurchaser.swift */,
-				AC3E6B63224BF51C00BB5179 /* LotteryWinningChecker.swift */,
 				AC3E6B61224BF51C00BB5179 /* LotteryWinningGrade.swift */,
 			);
 			path = Model;
@@ -126,6 +124,8 @@
 		AC3E6B6F225136EB00BB5179 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				AC3E6B62224BF51C00BB5179 /* LotteryPurchaser.swift */,
+				AC3E6B63224BF51C00BB5179 /* LotteryWinningChecker.swift */,
 				AC3E6B42224BF47600BB5179 /* ViewController.swift */,
 			);
 			path = Controller;
